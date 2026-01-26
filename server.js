@@ -1,4 +1,3 @@
-// server.js
 const express = require('express');
 const http = require('http');
 const { Server } = require('socket.io');
@@ -7,24 +6,19 @@ const path = require('path');
 const app = express();
 const server = http.createServer(app);
 const io = new Server(server, {
-  cors: { origin: '*' } // allow connections from any origin
+  cors: { origin: '*' }
 });
 
-// Rooms structure
-const rooms = {}; // { roomID: [socket1, socket2] }
+const rooms = {};
 
-// Serve frontend
 app.get('/', (req, res) => {
   res.sendFile(path.join(__dirname, 'client.html'));
 });
 
-// Socket.io connection
 io.on('connection', (socket) => {
   console.log('User connected:', socket.id);
 
-  // Join a room
   socket.on('join_room', (data) => {
-    // Handle both old (string) and new (object) formats slightly gracefully or just assume new
     let roomID, name;
     if (typeof data === 'object') {
       roomID = data.room;
@@ -34,7 +28,6 @@ io.on('connection', (socket) => {
       name = 'Anonymous';
     }
 
-    // Attach name to socket object for easy retrieval
     socket.userName = name;
 
     if (!rooms[roomID]) rooms[roomID] = [];
@@ -42,14 +35,10 @@ io.on('connection', (socket) => {
     socket.join(roomID);
 
     if (rooms[roomID].length === 2) {
-      // Get the two sockets
       const socket1 = io.sockets.sockets.get(rooms[roomID][0]);
       const socket2 = io.sockets.sockets.get(rooms[roomID][1]);
 
-      // Notify both users they are paired, sending the *other* person's name
-      // To socket1, send socket2's name
       if (socket1) socket1.emit('paired', { room: roomID, initiator: socket.id, remoteName: socket2 ? socket2.userName : 'Partner' });
-      // To socket2, send socket1's name
       if (socket2) socket2.emit('paired', { room: roomID, initiator: socket.id, remoteName: socket1 ? socket1.userName : 'Partner' });
 
       console.log(`Room ${roomID} is ready. ${socket1?.userName} <-> ${socket2?.userName}`);
@@ -59,22 +48,18 @@ io.on('connection', (socket) => {
     }
   });
 
-  // Text chat
   socket.on('message', ({ room, text }) => {
     socket.to(room).emit('message', { from: socket.id, text });
   });
 
-  // WebRTC signaling
   socket.on('signal', ({ room, data }) => {
     socket.to(room).emit('signal', data);
   });
 
-  // Relay Activity (Movie Mode) Status
   socket.on('activity', ({ room, data }) => {
     socket.to(room).emit('activity', data);
   });
 
-  // Disconnect
   socket.on('disconnect', () => {
     for (const roomID in rooms) {
       rooms[roomID] = rooms[roomID].filter(id => id !== socket.id);

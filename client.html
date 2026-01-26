@@ -12,7 +12,7 @@
       font-family: 'Courier New', Courier, monospace;
       margin: 0;
       overflow: hidden;
-      /* Prevent scrolling on full pages */
+      
     }
 
     .full-page {
@@ -100,7 +100,7 @@
       border-color: #fff;
     }
 
-    /* Page Call Layout */
+    
     #page-call {
       justify-content: flex-start;
       padding: 20px;
@@ -121,7 +121,7 @@
       flex-direction: column;
       gap: 10px;
       min-height: 0;
-      /* Allow shrinking below content size */
+      
     }
 
     #video-container {
@@ -131,20 +131,20 @@
       flex-grow: 1;
       justify-content: center;
       align-items: center;
-      /* Center videos horizontally */
+      
       min-height: 0;
-      /* Allow shrinking below content size */
+      
       overflow: hidden;
-      /* Ensure nothing sticks out */
+      
     }
 
     video {
       width: auto;
-      /* Let aspect ratio decide width */
+      
       max-width: 100%;
-      /* Don't overflow container width */
+      
       height: 48%;
-      /* Explicitly share height (leaving 4% for gap/margins) */
+      
       object-fit: contain;
       background: #000;
       border: 2px solid #0ff;
@@ -310,7 +310,7 @@
         flex: none;
         width: 100%;
         height: 60vh;
-        /* Fixed height for chat to be usable, but within scrollable page */
+        
         min-height: 400px;
       }
 
@@ -323,11 +323,11 @@
       }
     }
 
-    /* Movie Mode Styles (Activity) */
+    
 
     body.movie-mode #chat-area {
       display: none;
-      /* Hide default chat */
+      
     }
 
     body.movie-mode #main-container {
@@ -345,7 +345,7 @@
     body.movie-mode h2,
     body.movie-mode #status {
       display: none;
-      /* Clean look */
+      
     }
 
     body.movie-mode #video-area {
@@ -359,7 +359,7 @@
       justify-content: center;
     }
 
-    /* HOST VIEW: ActivityVideo is Main, RemoteVideo is Bubble */
+    
     body.movie-mode.host-view #activityVideo {
       display: block !important;
       height: 90vh !important;
@@ -389,7 +389,7 @@
       top: 150px;
     }
 
-    /* PEER VIEW: ActivityVideo is Main, RemoteVideo is Bubble */
+    
     body.movie-mode.peer-view #activityVideo {
       display: block !important;
       height: 90vh !important;
@@ -423,18 +423,18 @@
       top: 20px;
     }
 
-    /* Floating Chat Overlay */
+    
     #chat-overlay {
       position: fixed;
       right: 0;
       top: 0;
       bottom: 0;
       width: 300px;
-      /* ... existing styles ... */
+      
       background: rgba(0, 0, 0, 0.8);
       border-left: 1px solid #ff00ff;
       display: none;
-      /* Hidden by default */
+      
       flex-direction: column;
       z-index: 20;
       backdrop-filter: blur(5px);
@@ -451,7 +451,7 @@
       padding: 20px 40px;
       border-radius: 10px;
       pointer-events: none;
-      /* Let clicks pass through */
+      
       display: none;
       z-index: 15;
       border: 2px solid #0ff;
@@ -472,7 +472,7 @@
       cursor: pointer;
       z-index: 30;
       display: none;
-      /* Only in movie mode */
+      
       font-size: 1.5rem;
       align-items: center;
       justify-content: center;
@@ -485,7 +485,7 @@
       box-shadow: 0 0 20px #ff00ff;
     }
 
-    /* Custom Video Controls */
+    
     #custom-controls {
       position: fixed;
       bottom: 50px;
@@ -499,7 +499,7 @@
       z-index: 30;
       border: 1px solid #ff00ff;
       display: none;
-      /* Only in movie mode */
+      
     }
 
     #custom-controls button {
@@ -526,7 +526,7 @@
 
 <body>
 
-  <!-- Page 1: Room Code -->
+  
   <div id="page-login-code" class="full-page">
     <div class="content-box">
       <h2>ENTER ROOM CODE</h2>
@@ -537,7 +537,7 @@
   </div>
   </div>
 
-  <!-- Page 2: Name -->
+  
   <div id="page-login-name" class="full-page" style="display:none;">
     <div class="content-box">
       <h2>ENTER YOUR NAME</h2>
@@ -547,7 +547,7 @@
     </div>
   </div>
 
-  <!-- Page 3: Call Interface -->
+  
   <div id="page-call" class="full-page" style="display:none;">
     <h2>AMI-CHAT</h2>
     <div id="status">STATUS: DISCONNECTED</div>
@@ -558,10 +558,10 @@
           <div id="video-status-overlay"></div>
           <video id="localVideo" autoplay muted playsinline></video>
           <video id="remoteVideo" autoplay playsinline></video>
-          <!-- Hidden video player for file streaming -->
+          
           <video id="activityVideo" style="display:none;" playsinline loop></video>
 
-          <!-- Custom Controls Overlay -->
+          
           <div id="custom-controls">
             <button id="btn-skip-back">-10s</button>
             <button id="btn-play-pause">⏯</button>
@@ -573,7 +573,7 @@
           <button id="btn-cam" class="control-btn" title="Toggle Camera">📹</button>
           <button id="btn-activity" class="control-btn" title="Movie Mode">🎬</button>
           <button id="btn-fullscreen" class="control-btn" title="Fullscreen">⛶</button>
-          <!-- Hidden file input -->
+          
           <input type="file" id="fileInput" accept="video/*" style="display: none;">
         </div>
       </div>
@@ -587,10 +587,10 @@
       </div>
     </div>
 
-    <!-- Floating Elements for Movie Mode -->
+    
     <button id="chat-toggle-btn">💬</button>
     <div id="chat-overlay">
-      <!-- Chat will be moved here via JS or valid CSS selector -->
+      
       <div id="chat-header"
         style="padding: 10px; border-bottom: 1px solid #ff00ff; display:flex; justify-content:space-between;">
         <span>LIVE CHAT</span>
@@ -611,7 +611,7 @@
       iceServers: [{ urls: 'stun:stun.l.google.com:19302' }]
     };
 
-    // UI references
+    
     const status = document.getElementById('status');
     const chat = document.getElementById('chat');
     const localVideo = document.getElementById('localVideo');
@@ -620,19 +620,19 @@
     const btnMic = document.getElementById('btn-mic');
     const btnCam = document.getElementById('btn-cam');
 
-    // Steps references
+    
     const pageLoginCode = document.getElementById('page-login-code');
     const pageLoginName = document.getElementById('page-login-name');
     const pageCall = document.getElementById('page-call');
 
-    // Inputs
+    
     const roomCodeInput = document.getElementById('roomCode');
     const userNameInput = document.getElementById('userName');
 
-    // UI functions
+    
     function append(msg) { chat.innerHTML += '<div>' + msg + '</div>'; chat.scrollTop = chat.scrollHeight; }
 
-    // Step 1 -> Step 2
+    
     document.getElementById('nextBtn').onclick = () => {
       const code = roomCodeInput.value.trim();
       if (!/^\d{6}$/.test(code)) {
@@ -641,55 +641,55 @@
       }
       room = code;
       pageLoginCode.style.display = 'none';
-      pageLoginName.style.display = 'flex'; // Flex to center content
+      pageLoginName.style.display = 'flex'; 
       userNameInput.focus();
     };
 
-    // Step 2 Back -> Step 1
+    
     document.getElementById('backToCode').onclick = () => {
       pageLoginName.style.display = 'none';
       pageLoginCode.style.display = 'flex';
     };
 
-    // Step 2 Join -> Step 3 (Call)
+    
     document.getElementById('join').onclick = () => {
       const name = userNameInput.value.trim();
       if (name) {
         socket.emit('join_room', { room: room, name: name });
         status.textContent = 'STATUS: JOINING ROOM...';
         pageLoginName.style.display = 'none';
-        pageCall.style.display = 'flex'; // Show main interface
+        pageCall.style.display = 'flex'; 
       } else {
         alert('Please enter your name!');
       }
     };
 
-    // Send text messages
+    
     document.getElementById('send').onclick = () => {
       const t = document.getElementById('msg').value;
       const myName = userNameInput.value.trim() || 'ME';
       if (room && t) { socket.emit('message', { room, text: t }); append('<span style="color:#ff00ff">' + myName + ':</span> ' + t); document.getElementById('msg').value = ''; }
     };
 
-    // Enter key for message
+    
     document.getElementById('msg').addEventListener('keypress', function (e) {
       if (e.key === 'Enter') {
         document.getElementById('send').click();
       }
     });
 
-    // Enter key for Room Code
+    
     roomCodeInput.addEventListener('keypress', function (e) {
       if (e.key === 'Enter') document.getElementById('nextBtn').click();
     });
 
-    // Enter key for Name
+    
     userNameInput.addEventListener('keypress', function (e) {
       if (e.key === 'Enter') document.getElementById('join').click();
     });
 
 
-    // Socket events
+    
     socket.on('waiting', () => status.textContent = 'STATUS: WAITING FOR FRIEND...');
 
     let remoteUserName = 'Friend';
@@ -698,7 +698,7 @@
       room = r;
       remoteUserName = remoteName || 'Friend';
       status.textContent = 'STATUS: CONNECTED! ROOM: ' + room + ' | WITH: ' + remoteUserName;
-      // pageCall is already visible from join click
+      
       const isInitiator = socket.id === initiator;
       console.log('Paired. Am I initiator?', isInitiator);
       await startVideoChat(isInitiator);
@@ -723,7 +723,7 @@
           console.log('Received SDP:', data.sdp.type);
           await peerConn.setRemoteDescription(new RTCSessionDescription(data.sdp));
 
-          // Process queued candidates that were waiting for remote description
+          
           while (candidateQueue.length > 0) {
             const candidate = candidateQueue.shift();
             console.log('Adding queued candidate');
@@ -754,32 +754,32 @@
 
     let candidateQueue = [];
 
-    // WebRTC functions
+    
     async function startVideoChat(isInitiator) {
-      // 1. Get User Media (Camera/Mic)
+      
       try {
         if (!localStream) {
           localStream = await navigator.mediaDevices.getUserMedia({ video: true, audio: true });
           localVideo.srcObject = localStream;
-          mediaControls.style.display = 'flex'; // Show controls
+          mediaControls.style.display = 'flex'; 
         }
       } catch (err) {
         console.error('Error accessing camera/mic:', err);
         status.textContent = 'STATUS: CAMERA/MIC BLOCKED. JOINING AS VIEWER...';
-        // Proceed without local stream
+        
       }
 
       try {
-        if (peerConn) peerConn.close(); // Reset if exists
+        if (peerConn) peerConn.close(); 
 
         peerConn = new RTCPeerConnection(rtcConfig);
 
-        // Add local tracks IF we have them
+        
         if (localStream) {
           localStream.getTracks().forEach(track => peerConn.addTrack(track, localStream));
         }
 
-        // Handle remote tracks
+        
         peerConn.ontrack = e => {
           console.log('Received remote track', e.streams[0].id);
           const stream = e.streams[0];
@@ -793,24 +793,24 @@
           }
         };
 
-        // Handle ICE candidates
+        
         peerConn.onicecandidate = e => {
           if (e.candidate) {
             socket.emit('signal', { room, data: { candidate: e.candidate } });
           }
         };
 
-        // Process any signals that arrived while we were getting media/initializing
+        
         while (signalQueue.length > 0) {
           const data = signalQueue.shift();
           console.log('Processing early queued signal');
           await handleSignal(data);
         }
 
-        // If initiator, create offer
+        
         if (isInitiator) {
           console.log('Creating Offer');
-          // offerToReceiveVideo/Audio ensures we ask for streams even if we don't send one
+          
           const offer = await peerConn.createOffer({ offerToReceiveVideo: true, offerToReceiveAudio: true });
           await peerConn.setLocalDescription(offer);
           socket.emit('signal', { room, data: { sdp: offer } });
@@ -821,7 +821,7 @@
       }
     }
 
-    // Media Control Logic
+    
     btnMic.onclick = () => {
       if (localStream) {
         const audioTrack = localStream.getAudioTracks()[0];
@@ -854,7 +854,7 @@
       }
     };
 
-    // Video Streaming Logic
+    
     const btnActivity = document.getElementById('btn-activity');
     const fileInput = document.getElementById('fileInput');
     const activityVideo = document.getElementById('activityVideo');
@@ -862,7 +862,7 @@
 
     let isStreaming = false;
 
-    // Movie Mode / Chat Logic
+    
     const chatOverlay = document.getElementById('chat-overlay');
     const statusOverlay = document.getElementById('video-status-overlay');
     const chatToggleBtn = document.getElementById('chat-toggle-btn');
@@ -873,9 +873,9 @@
     const closeChatBtn = document.getElementById('close-chat');
     const customControls = document.getElementById('custom-controls');
 
-    // Capture Activity Events from Peer
-    // Capture Activity Events from Peer
-    // Capture Activity Events from Peer
+    
+    
+    
     let isPeerVideoPlaying = false;
 
     socket.on('activity', (data) => {
@@ -887,25 +887,25 @@
         toggleMovieMode(false);
         isPeerVideoPlaying = false;
       } else if (data.type === 'sync') {
-        // Playback Sync Feedback
+        
         if (data.action === 'pause') {
           isPeerVideoPlaying = false;
           statusOverlay.textContent = "⏸ Paused";
           statusOverlay.style.display = 'block';
-          // Peer: Show controls on pause
+          
           showControls();
           clearTimeout(controlsTimeout);
         } else if (data.action === 'play') {
           isPeerVideoPlaying = true;
           statusOverlay.style.display = 'none';
-          // Peer: Start auto-hide on play
+          
           clearTimeout(controlsTimeout);
           controlsTimeout = setTimeout(hideControls, 4000);
         }
       }
     });
 
-    // Auto-Hide Controls Logic
+    
     let controlsTimeout;
 
     function hideControls() {
@@ -921,7 +921,7 @@
       if (document.body.classList.contains('movie-mode')) {
         document.body.style.cursor = 'default';
         mediaControls.style.display = 'flex';
-        // Custom controls only for host
+        
         if (document.body.classList.contains('host-view')) {
           customControls.style.display = 'flex';
         }
@@ -948,11 +948,11 @@
       }
     });
 
-    // HOST: Bind Events to ActivityVideo to Notify Peer
+    
     activityVideo.onplay = () => {
       if (isStreaming) {
         socket.emit('activity', { room, data: { type: 'sync', action: 'play' } });
-        // Start auto-hide
+        
         clearTimeout(controlsTimeout);
         controlsTimeout = setTimeout(hideControls, 4000);
       }
@@ -960,7 +960,7 @@
     activityVideo.onpause = () => {
       if (isStreaming) {
         socket.emit('activity', { room, data: { type: 'sync', action: 'pause' } });
-        // Show and keep controls
+        
         showControls();
         clearTimeout(controlsTimeout);
       }
@@ -971,7 +971,7 @@
       if (enable) {
         document.body.classList.add('movie-mode');
 
-        // Add Host or Peer View Class
+        
         if (isHost) {
           document.body.classList.add('host-view');
           document.body.classList.remove('peer-view');
@@ -979,7 +979,7 @@
           document.body.classList.add('peer-view');
           document.body.classList.remove('host-view');
 
-          // Show "Click for Fullscreen" toast for peer
+          
           const toast = document.createElement('div');
           toast.id = 'fs-toast';
           toast.textContent = "👆 Tap for Cinematic Mode";
@@ -993,9 +993,9 @@
         }
 
         chatToggleBtn.style.display = 'flex';
-        customControls.style.display = isHost ? 'flex' : 'none'; // Only host sees controls
+        customControls.style.display = isHost ? 'flex' : 'none'; 
 
-        // Auto Fullscreen
+        
         if (document.body.requestFullscreen) {
           document.body.requestFullscreen().catch(err => console.log('Fullscreen blocked:', err));
         }
@@ -1005,14 +1005,14 @@
         document.body.classList.remove('peer-view');
 
         chatToggleBtn.style.display = 'none';
-        chatOverlay.style.display = 'none'; // Ensure closed
+        chatOverlay.style.display = 'none'; 
         customControls.style.display = 'none';
 
-        // Remove toast if exists
+        
         const toast = document.getElementById('fs-toast');
         if (toast) toast.remove();
 
-        // Return Chat to Original Spot
+        
         chatAreaOriginal.appendChild(chatContent);
         chatAreaOriginal.appendChild(inputArea);
 
@@ -1020,13 +1020,13 @@
       }
     }
 
-    // Chat Toggle
+    
     chatToggleBtn.onclick = () => {
       if (chatOverlay.style.display === 'flex') {
         chatOverlay.style.display = 'none';
       } else {
         chatOverlay.style.display = 'flex';
-        // Move Chat Content Here
+        
         if (!floatingChatContainer.contains(chatContent)) {
           floatingChatContainer.appendChild(chatContent);
           floatingChatContainer.appendChild(inputArea);
@@ -1038,7 +1038,7 @@
       chatOverlay.style.display = 'none';
     };
 
-    // Custom Video Controls
+    
     document.getElementById('btn-play-pause').onclick = () => {
       if (activityVideo.paused) {
         activityVideo.play();
@@ -1057,7 +1057,7 @@
       activityVideo.currentTime += 10;
     };
 
-    // Activity Button -> Trigger File Input
+    
     btnActivity.onclick = () => {
       if (isStreaming) {
         stopActivity();
@@ -1066,25 +1066,25 @@
       }
     };
 
-    // File Input Change -> Start Streaming
+    
     fileInput.onchange = async (e) => {
       const file = e.target.files[0];
       if (file) {
         const fileURL = URL.createObjectURL(file);
         activityVideo.src = fileURL;
 
-        // Host Mode: Show Controls
+        
         toggleMovieMode(true, true);
 
-        // Notify Peer
+        
         socket.emit('activity', { room, data: { type: 'start' } });
         await activityVideo.play();
 
-        // Replace tracks
+        
         startActivityStream(activityVideo);
 
-        btnActivity.textContent = "⏹"; // Stop icon
-        btnActivity.classList.add('off'); // Use 'off' style for stop state
+        btnActivity.textContent = "⏹"; 
+        btnActivity.classList.add('off'); 
         isStreaming = true;
       }
     };
@@ -1092,10 +1092,10 @@
     let movieSenders = [];
 
     async function startActivityStream(videoElem) {
-      // 1. Capture stream from video element
+      
       const stream = videoElem.captureStream ? videoElem.captureStream() : videoElem.mozCaptureStream();
 
-      // Store tracks to remove later
+      
       const tracks = stream.getTracks();
 
       if (peerConn) {
@@ -1104,25 +1104,25 @@
           movieSenders.push(peerConn.addTrack(track, stream));
         });
 
-        // Renegotiate to send the new stream
+        
         const offer = await peerConn.createOffer();
         await peerConn.setLocalDescription(offer);
         socket.emit('signal', { room, data: { sdp: offer } });
       }
 
-      // Local view update
-      // We want to show the movie in the main area (activityVideo is already handling playback)
-      // And we keep localVideo (Camera) active.
+      
+      
+      
 
-      // Ensure activityVideo shows locally (it does, it's the source)
+      
       activityVideo.style.display = 'block';
     }
 
     async function stopActivity() {
-      // Notify Peer
+      
       socket.emit('activity', { room, data: { type: 'stop' } });
 
-      // Remove Movie Tracks
+      
       if (peerConn) {
         movieSenders.forEach(sender => {
           try {
@@ -1131,28 +1131,28 @@
         });
         movieSenders = [];
 
-        // Renegotiate to remove the stream
+        
         const offer = await peerConn.createOffer();
         await peerConn.setLocalDescription(offer);
         socket.emit('signal', { room, data: { sdp: offer } });
       }
 
-      // Revert to Local Camera/Mic
+      
       toggleMovieMode(false);
       isStreaming = false;
       activityVideo.pause();
       activityVideo.style.display = 'none';
-      activityVideo.removeAttribute('src'); // Clear source
+      activityVideo.removeAttribute('src'); 
 
-      // localVideo stays as is (Camera)
+      
       localVideo.style.display = 'block';
 
       btnActivity.textContent = "🎬";
       btnActivity.classList.remove('off');
-      fileInput.value = ''; // Reset input
+      fileInput.value = ''; 
     }
 
-    // Fullscreen Logic
+    
     btnFullscreen.onclick = () => {
       if (document.fullscreenElement) {
         document.exitFullscreen();
@@ -1163,7 +1163,7 @@
       }
     };
 
-    // Prevent hiding controls while hovering them
+    
     const protectControls = [mediaControls, customControls, chatToggleBtn];
     protectControls.forEach(el => {
       if (el) {
@@ -1176,7 +1176,7 @@
       }
     });
 
-    // Drag & Resize Logic
+    
     function makeInteractive(el) {
       let isDragging = false;
       let isResizing = false;
@@ -1185,11 +1185,11 @@
       el.addEventListener('mousedown', (e) => {
         if (!document.body.classList.contains('movie-mode')) return;
 
-        // Only allow interaction if it's one of the bubbles (not the main container)
-        // Check computed styles or IDs to be sure, but strict usage on localVideo/remoteVideo is safe.
+        
+        
 
         const rect = el.getBoundingClientRect();
-        // Resize zone: bottom-right 30x30
+        
         const onRightEdge = e.clientX > rect.right - 30;
         const onBottomEdge = e.clientY > rect.bottom - 30;
 
@@ -1203,10 +1203,10 @@
         } else {
           isDragging = true;
 
-          // Bring to front
+          
           el.style.zIndex = 100;
 
-          // Switch to absolute positioning based on current rect to "detach" from CSS right/bottom defaults
+          
           el.style.right = 'auto';
           el.style.bottom = 'auto';
           el.style.left = rect.left + 'px';
@@ -1223,7 +1223,7 @@
       window.addEventListener('mousemove', (e) => {
         if (!document.body.classList.contains('movie-mode')) return;
 
-        // Visual Cursor Hints
+        
         if (e.target === el) {
           const rect = el.getBoundingClientRect();
           const onResizeZone = (e.clientX > rect.right - 30) && (e.clientY > rect.bottom - 30);
