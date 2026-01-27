@@ -12,7 +12,7 @@
       font-family: 'Courier New', Courier, monospace;
       margin: 0;
       overflow: hidden;
-      
+
     }
 
     .full-page {
@@ -100,7 +100,7 @@
       border-color: #fff;
     }
 
-    
+
     #page-call {
       justify-content: flex-start;
       padding: 20px;
@@ -121,7 +121,7 @@
       flex-direction: column;
       gap: 10px;
       min-height: 0;
-      
+
     }
 
     #video-container {
@@ -131,20 +131,20 @@
       flex-grow: 1;
       justify-content: center;
       align-items: center;
-      
+
       min-height: 0;
-      
+
       overflow: hidden;
-      
+
     }
 
     video {
       width: auto;
-      
+
       max-width: 100%;
-      
+
       height: 48%;
-      
+
       object-fit: contain;
       background: #000;
       border: 2px solid #0ff;
@@ -310,7 +310,7 @@
         flex: none;
         width: 100%;
         height: 60vh;
-        
+
         min-height: 400px;
       }
 
@@ -323,11 +323,11 @@
       }
     }
 
-    
+
 
     body.movie-mode #chat-area {
       display: none;
-      
+
     }
 
     body.movie-mode #main-container {
@@ -345,7 +345,7 @@
     body.movie-mode h2,
     body.movie-mode #status {
       display: none;
-      
+
     }
 
     body.movie-mode #video-area {
@@ -359,8 +359,8 @@
       justify-content: center;
     }
 
-    
-    body.movie-mode.host-view #activityVideo {
+
+    body.movie-mode.host-view.file-mode #activityVideo {
       display: block !important;
       height: 90vh !important;
       width: 90vw !important;
@@ -389,8 +389,8 @@
       top: 150px;
     }
 
-    
-    body.movie-mode.peer-view #activityVideo {
+
+    body.movie-mode.peer-view.file-mode #activityVideo {
       display: block !important;
       height: 90vh !important;
       width: 90vw !important;
@@ -423,18 +423,73 @@
       top: 20px;
     }
 
-    
+    /* YouTube Player Styles */
+    #youtube-player {
+      display: none;
+      width: auto;
+      max-width: 100%;
+      height: 48%;
+      /* Matches default video height */
+      border: 2px solid #0ff;
+      border-radius: 8px;
+    }
+
+    body.movie-mode.host-view.youtube-mode #youtube-player,
+    body.movie-mode.peer-view.youtube-mode #youtube-player {
+      display: block !important;
+      height: 90vh !important;
+      width: 90vw !important;
+      max-width: none;
+      border: none;
+    }
+
+    #youtube-blocker {
+      position: absolute;
+      top: 0;
+      left: 0;
+      width: 100%;
+      height: 100%;
+      z-index: 20;
+      /* Above YouTube iframe */
+      display: none;
+    }
+
+    body.movie-mode.peer-view.youtube-mode #youtube-blocker {
+      display: block;
+    }
+
+    #owner-badge {
+      position: absolute;
+      top: 20px;
+      left: 50%;
+      transform: translateX(-50%);
+      background: #ff00ff;
+      color: #000;
+      padding: 5px 15px;
+      border-radius: 20px;
+      font-weight: bold;
+      z-index: 30;
+      display: none;
+      box-shadow: 0 0 10px #ff00ff;
+      pointer-events: none;
+    }
+
+    body.movie-mode.host-view.youtube-mode #owner-badge {
+      display: block;
+    }
+
+
     #chat-overlay {
       position: fixed;
       right: 0;
       top: 0;
       bottom: 0;
       width: 300px;
-      
+
       background: rgba(0, 0, 0, 0.8);
       border-left: 1px solid #ff00ff;
       display: none;
-      
+
       flex-direction: column;
       z-index: 20;
       backdrop-filter: blur(5px);
@@ -451,7 +506,7 @@
       padding: 20px 40px;
       border-radius: 10px;
       pointer-events: none;
-      
+
       display: none;
       z-index: 15;
       border: 2px solid #0ff;
@@ -472,7 +527,7 @@
       cursor: pointer;
       z-index: 30;
       display: none;
-      
+
       font-size: 1.5rem;
       align-items: center;
       justify-content: center;
@@ -485,7 +540,7 @@
       box-shadow: 0 0 20px #ff00ff;
     }
 
-    
+
     #custom-controls {
       position: fixed;
       bottom: 50px;
@@ -499,7 +554,7 @@
       z-index: 30;
       border: 1px solid #ff00ff;
       display: none;
-      
+
     }
 
     #custom-controls button {
@@ -526,7 +581,7 @@
 
 <body>
 
-  
+
   <div id="page-login-code" class="full-page">
     <div class="content-box">
       <h2>ENTER ROOM CODE</h2>
@@ -537,7 +592,7 @@
   </div>
   </div>
 
-  
+
   <div id="page-login-name" class="full-page" style="display:none;">
     <div class="content-box">
       <h2>ENTER YOUR NAME</h2>
@@ -547,7 +602,7 @@
     </div>
   </div>
 
-  
+
   <div id="page-call" class="full-page" style="display:none;">
     <h2>AMI-CHAT</h2>
     <div id="status">STATUS: DISCONNECTED</div>
@@ -558,10 +613,14 @@
           <div id="video-status-overlay"></div>
           <video id="localVideo" autoplay muted playsinline></video>
           <video id="remoteVideo" autoplay playsinline></video>
-          
-          <video id="activityVideo" style="display:none;" playsinline loop></video>
 
-          
+          <video id="activityVideo" style="display:none;" playsinline loop></video>
+          <video id="activityVideo" style="display:none;" playsinline loop></video>
+          <div id="youtube-player"></div>
+          <div id="youtube-blocker"></div>
+          <div id="owner-badge">👑 OWNER</div>
+
+
           <div id="custom-controls">
             <button id="btn-skip-back">-10s</button>
             <button id="btn-play-pause">⏯</button>
@@ -572,8 +631,9 @@
           <button id="btn-mic" class="control-btn" title="Toggle Mic">🎤</button>
           <button id="btn-cam" class="control-btn" title="Toggle Camera">📹</button>
           <button id="btn-activity" class="control-btn" title="Movie Mode">🎬</button>
+          <button id="btn-youtube" class="control-btn" title="YouTube Mode">📺</button>
           <button id="btn-fullscreen" class="control-btn" title="Fullscreen">⛶</button>
-          
+
           <input type="file" id="fileInput" accept="video/*" style="display: none;">
         </div>
       </div>
@@ -587,10 +647,10 @@
       </div>
     </div>
 
-    
+
     <button id="chat-toggle-btn">💬</button>
     <div id="chat-overlay">
-      
+
       <div id="chat-header"
         style="padding: 10px; border-bottom: 1px solid #ff00ff; display:flex; justify-content:space-between;">
         <span>LIVE CHAT</span>
@@ -611,7 +671,7 @@
       iceServers: [{ urls: 'stun:stun.l.google.com:19302' }]
     };
 
-    
+
     const status = document.getElementById('status');
     const chat = document.getElementById('chat');
     const localVideo = document.getElementById('localVideo');
@@ -620,19 +680,19 @@
     const btnMic = document.getElementById('btn-mic');
     const btnCam = document.getElementById('btn-cam');
 
-    
+
     const pageLoginCode = document.getElementById('page-login-code');
     const pageLoginName = document.getElementById('page-login-name');
     const pageCall = document.getElementById('page-call');
 
-    
+
     const roomCodeInput = document.getElementById('roomCode');
     const userNameInput = document.getElementById('userName');
 
-    
+
     function append(msg) { chat.innerHTML += '<div>' + msg + '</div>'; chat.scrollTop = chat.scrollHeight; }
 
-    
+
     document.getElementById('nextBtn').onclick = () => {
       const code = roomCodeInput.value.trim();
       if (!/^\d{6}$/.test(code)) {
@@ -641,55 +701,55 @@
       }
       room = code;
       pageLoginCode.style.display = 'none';
-      pageLoginName.style.display = 'flex'; 
+      pageLoginName.style.display = 'flex';
       userNameInput.focus();
     };
 
-    
+
     document.getElementById('backToCode').onclick = () => {
       pageLoginName.style.display = 'none';
       pageLoginCode.style.display = 'flex';
     };
 
-    
+
     document.getElementById('join').onclick = () => {
       const name = userNameInput.value.trim();
       if (name) {
         socket.emit('join_room', { room: room, name: name });
         status.textContent = 'STATUS: JOINING ROOM...';
         pageLoginName.style.display = 'none';
-        pageCall.style.display = 'flex'; 
+        pageCall.style.display = 'flex';
       } else {
         alert('Please enter your name!');
       }
     };
 
-    
+
     document.getElementById('send').onclick = () => {
       const t = document.getElementById('msg').value;
       const myName = userNameInput.value.trim() || 'ME';
       if (room && t) { socket.emit('message', { room, text: t }); append('<span style="color:#ff00ff">' + myName + ':</span> ' + t); document.getElementById('msg').value = ''; }
     };
 
-    
+
     document.getElementById('msg').addEventListener('keypress', function (e) {
       if (e.key === 'Enter') {
         document.getElementById('send').click();
       }
     });
 
-    
+
     roomCodeInput.addEventListener('keypress', function (e) {
       if (e.key === 'Enter') document.getElementById('nextBtn').click();
     });
 
-    
+
     userNameInput.addEventListener('keypress', function (e) {
       if (e.key === 'Enter') document.getElementById('join').click();
     });
 
 
-    
+
     socket.on('waiting', () => status.textContent = 'STATUS: WAITING FOR FRIEND...');
 
     let remoteUserName = 'Friend';
@@ -698,7 +758,7 @@
       room = r;
       remoteUserName = remoteName || 'Friend';
       status.textContent = 'STATUS: CONNECTED! ROOM: ' + room + ' | WITH: ' + remoteUserName;
-      
+
       const isInitiator = socket.id === initiator;
       console.log('Paired. Am I initiator?', isInitiator);
       await startVideoChat(isInitiator);
@@ -723,7 +783,7 @@
           console.log('Received SDP:', data.sdp.type);
           await peerConn.setRemoteDescription(new RTCSessionDescription(data.sdp));
 
-          
+
           while (candidateQueue.length > 0) {
             const candidate = candidateQueue.shift();
             console.log('Adding queued candidate');
@@ -754,32 +814,32 @@
 
     let candidateQueue = [];
 
-    
+
     async function startVideoChat(isInitiator) {
-      
+
       try {
         if (!localStream) {
           localStream = await navigator.mediaDevices.getUserMedia({ video: true, audio: true });
           localVideo.srcObject = localStream;
-          mediaControls.style.display = 'flex'; 
+          mediaControls.style.display = 'flex';
         }
       } catch (err) {
         console.error('Error accessing camera/mic:', err);
         status.textContent = 'STATUS: CAMERA/MIC BLOCKED. JOINING AS VIEWER...';
-        
+
       }
 
       try {
-        if (peerConn) peerConn.close(); 
+        if (peerConn) peerConn.close();
 
         peerConn = new RTCPeerConnection(rtcConfig);
 
-        
+
         if (localStream) {
           localStream.getTracks().forEach(track => peerConn.addTrack(track, localStream));
         }
 
-        
+
         peerConn.ontrack = e => {
           console.log('Received remote track', e.streams[0].id);
           const stream = e.streams[0];
@@ -793,24 +853,24 @@
           }
         };
 
-        
+
         peerConn.onicecandidate = e => {
           if (e.candidate) {
             socket.emit('signal', { room, data: { candidate: e.candidate } });
           }
         };
 
-        
+
         while (signalQueue.length > 0) {
           const data = signalQueue.shift();
           console.log('Processing early queued signal');
           await handleSignal(data);
         }
 
-        
+
         if (isInitiator) {
           console.log('Creating Offer');
-          
+
           const offer = await peerConn.createOffer({ offerToReceiveVideo: true, offerToReceiveAudio: true });
           await peerConn.setLocalDescription(offer);
           socket.emit('signal', { room, data: { sdp: offer } });
@@ -821,7 +881,7 @@
       }
     }
 
-    
+
     btnMic.onclick = () => {
       if (localStream) {
         const audioTrack = localStream.getAudioTracks()[0];
@@ -854,7 +914,7 @@
       }
     };
 
-    
+
     const btnActivity = document.getElementById('btn-activity');
     const fileInput = document.getElementById('fileInput');
     const activityVideo = document.getElementById('activityVideo');
@@ -862,7 +922,7 @@
 
     let isStreaming = false;
 
-    
+
     const chatOverlay = document.getElementById('chat-overlay');
     const statusOverlay = document.getElementById('video-status-overlay');
     const chatToggleBtn = document.getElementById('chat-toggle-btn');
@@ -873,9 +933,9 @@
     const closeChatBtn = document.getElementById('close-chat');
     const customControls = document.getElementById('custom-controls');
 
-    
-    
-    
+
+
+
     let isPeerVideoPlaying = false;
 
     socket.on('activity', (data) => {
@@ -883,29 +943,30 @@
       if (data.type === 'start') {
         console.log('Peer starting movie mode');
         toggleMovieMode(true, false);
+        document.body.classList.add('file-mode');
       } else if (data.type === 'stop') {
         toggleMovieMode(false);
         isPeerVideoPlaying = false;
       } else if (data.type === 'sync') {
-        
+
         if (data.action === 'pause') {
           isPeerVideoPlaying = false;
           statusOverlay.textContent = "⏸ Paused";
           statusOverlay.style.display = 'block';
-          
+
           showControls();
           clearTimeout(controlsTimeout);
         } else if (data.action === 'play') {
           isPeerVideoPlaying = true;
           statusOverlay.style.display = 'none';
-          
+
           clearTimeout(controlsTimeout);
           controlsTimeout = setTimeout(hideControls, 4000);
         }
       }
     });
 
-    
+
     let controlsTimeout;
 
     function hideControls() {
@@ -921,8 +982,8 @@
       if (document.body.classList.contains('movie-mode')) {
         document.body.style.cursor = 'default';
         mediaControls.style.display = 'flex';
-        
-        if (document.body.classList.contains('host-view')) {
+
+        if (document.body.classList.contains('host-view') && !document.body.classList.contains('youtube-mode')) {
           customControls.style.display = 'flex';
         }
         chatToggleBtn.style.display = 'flex';
@@ -948,11 +1009,11 @@
       }
     });
 
-    
+
     activityVideo.onplay = () => {
       if (isStreaming) {
         socket.emit('activity', { room, data: { type: 'sync', action: 'play' } });
-        
+
         clearTimeout(controlsTimeout);
         controlsTimeout = setTimeout(hideControls, 4000);
       }
@@ -960,7 +1021,7 @@
     activityVideo.onpause = () => {
       if (isStreaming) {
         socket.emit('activity', { room, data: { type: 'sync', action: 'pause' } });
-        
+
         showControls();
         clearTimeout(controlsTimeout);
       }
@@ -971,7 +1032,7 @@
       if (enable) {
         document.body.classList.add('movie-mode');
 
-        
+
         if (isHost) {
           document.body.classList.add('host-view');
           document.body.classList.remove('peer-view');
@@ -979,7 +1040,7 @@
           document.body.classList.add('peer-view');
           document.body.classList.remove('host-view');
 
-          
+
           const toast = document.createElement('div');
           toast.id = 'fs-toast';
           toast.textContent = "👆 Tap for Cinematic Mode";
@@ -993,9 +1054,9 @@
         }
 
         chatToggleBtn.style.display = 'flex';
-        customControls.style.display = isHost ? 'flex' : 'none'; 
+        customControls.style.display = isHost ? 'flex' : 'none';
 
-        
+
         if (document.body.requestFullscreen) {
           document.body.requestFullscreen().catch(err => console.log('Fullscreen blocked:', err));
         }
@@ -1003,16 +1064,17 @@
         document.body.classList.remove('movie-mode');
         document.body.classList.remove('host-view');
         document.body.classList.remove('peer-view');
+        document.body.classList.remove('file-mode', 'youtube-mode');
 
         chatToggleBtn.style.display = 'none';
-        chatOverlay.style.display = 'none'; 
+        chatOverlay.style.display = 'none';
         customControls.style.display = 'none';
 
-        
+
         const toast = document.getElementById('fs-toast');
         if (toast) toast.remove();
 
-        
+
         chatAreaOriginal.appendChild(chatContent);
         chatAreaOriginal.appendChild(inputArea);
 
@@ -1020,13 +1082,13 @@
       }
     }
 
-    
+
     chatToggleBtn.onclick = () => {
       if (chatOverlay.style.display === 'flex') {
         chatOverlay.style.display = 'none';
       } else {
         chatOverlay.style.display = 'flex';
-        
+
         if (!floatingChatContainer.contains(chatContent)) {
           floatingChatContainer.appendChild(chatContent);
           floatingChatContainer.appendChild(inputArea);
@@ -1038,7 +1100,7 @@
       chatOverlay.style.display = 'none';
     };
 
-    
+
     document.getElementById('btn-play-pause').onclick = () => {
       if (activityVideo.paused) {
         activityVideo.play();
@@ -1057,7 +1119,7 @@
       activityVideo.currentTime += 10;
     };
 
-    
+
     btnActivity.onclick = () => {
       if (isStreaming) {
         stopActivity();
@@ -1066,25 +1128,25 @@
       }
     };
 
-    
+
     fileInput.onchange = async (e) => {
       const file = e.target.files[0];
       if (file) {
         const fileURL = URL.createObjectURL(file);
         activityVideo.src = fileURL;
 
-        
-        toggleMovieMode(true, true);
 
-        
+        toggleMovieMode(true, true);
+        document.body.classList.add('file-mode');
+
         socket.emit('activity', { room, data: { type: 'start' } });
         await activityVideo.play();
 
-        
+
         startActivityStream(activityVideo);
 
-        btnActivity.textContent = "⏹"; 
-        btnActivity.classList.add('off'); 
+        btnActivity.textContent = "⏹";
+        btnActivity.classList.add('off');
         isStreaming = true;
       }
     };
@@ -1092,10 +1154,10 @@
     let movieSenders = [];
 
     async function startActivityStream(videoElem) {
-      
+
       const stream = videoElem.captureStream ? videoElem.captureStream() : videoElem.mozCaptureStream();
 
-      
+
       const tracks = stream.getTracks();
 
       if (peerConn) {
@@ -1104,25 +1166,25 @@
           movieSenders.push(peerConn.addTrack(track, stream));
         });
 
-        
+
         const offer = await peerConn.createOffer();
         await peerConn.setLocalDescription(offer);
         socket.emit('signal', { room, data: { sdp: offer } });
       }
 
-      
-      
-      
 
-      
+
+
+
+
       activityVideo.style.display = 'block';
     }
 
     async function stopActivity() {
-      
+
       socket.emit('activity', { room, data: { type: 'stop' } });
 
-      
+
       if (peerConn) {
         movieSenders.forEach(sender => {
           try {
@@ -1131,28 +1193,28 @@
         });
         movieSenders = [];
 
-        
+
         const offer = await peerConn.createOffer();
         await peerConn.setLocalDescription(offer);
         socket.emit('signal', { room, data: { sdp: offer } });
       }
 
-      
+
       toggleMovieMode(false);
       isStreaming = false;
       activityVideo.pause();
       activityVideo.style.display = 'none';
-      activityVideo.removeAttribute('src'); 
+      activityVideo.removeAttribute('src');
 
-      
+
       localVideo.style.display = 'block';
 
       btnActivity.textContent = "🎬";
       btnActivity.classList.remove('off');
-      fileInput.value = ''; 
+      fileInput.value = '';
     }
 
-    
+
     btnFullscreen.onclick = () => {
       if (document.fullscreenElement) {
         document.exitFullscreen();
@@ -1163,7 +1225,7 @@
       }
     };
 
-    
+
     const protectControls = [mediaControls, customControls, chatToggleBtn];
     protectControls.forEach(el => {
       if (el) {
@@ -1176,7 +1238,7 @@
       }
     });
 
-    
+
     function makeInteractive(el) {
       let isDragging = false;
       let isResizing = false;
@@ -1185,11 +1247,11 @@
       el.addEventListener('mousedown', (e) => {
         if (!document.body.classList.contains('movie-mode')) return;
 
-        
-        
+
+
 
         const rect = el.getBoundingClientRect();
-        
+
         const onRightEdge = e.clientX > rect.right - 30;
         const onBottomEdge = e.clientY > rect.bottom - 30;
 
@@ -1203,10 +1265,10 @@
         } else {
           isDragging = true;
 
-          
+
           el.style.zIndex = 100;
 
-          
+
           el.style.right = 'auto';
           el.style.bottom = 'auto';
           el.style.left = rect.left + 'px';
@@ -1223,7 +1285,7 @@
       window.addEventListener('mousemove', (e) => {
         if (!document.body.classList.contains('movie-mode')) return;
 
-        
+
         if (e.target === el) {
           const rect = el.getBoundingClientRect();
           const onResizeZone = (e.clientX > rect.right - 30) && (e.clientY > rect.bottom - 30);
@@ -1251,6 +1313,179 @@
 
     makeInteractive(localVideo);
     makeInteractive(remoteVideo);
+
+    // --- YouTube Integration ---
+    const btnYoutube = document.getElementById('btn-youtube');
+    let ytPlayer = null;
+    let ytVideoId = '';
+
+    // Load YouTube IFrame API
+    var tag = document.createElement('script');
+    tag.src = "https://www.youtube.com/iframe_api";
+    var firstScriptTag = document.getElementsByTagName('script')[0];
+    firstScriptTag.parentNode.insertBefore(tag, firstScriptTag);
+
+    function onYouTubeIframeAPIReady() {
+      // Do not init here, wait for startYouTube
+      console.log("YouTube API Ready");
+    }
+
+    function createPlayer(videoId, isHost) {
+      if (ytPlayer) {
+        ytPlayer.destroy();
+      }
+
+      ytPlayer = new YT.Player('youtube-player', {
+        height: '100%',
+        width: '100%',
+        videoId: videoId,
+        playerVars: {
+          'playsinline': 1,
+          'rel': 0,
+          'controls': isHost ? 1 : 0, // Only host gets controls
+          'disablekb': isHost ? 0 : 1 // Disable keyboard for peer
+        },
+        events: {
+          'onReady': onPlayerReady,
+          'onStateChange': (e) => onPlayerStateChange(e, isHost)
+        }
+      });
+    }
+
+    function onPlayerReady(event) {
+      console.log("YouTube Player Ready");
+    }
+
+    function onPlayerStateChange(event, isHost) {
+      if (!isHost) return; // Peer triggers no events
+
+      // 1 = PLAYING, 2 = PAUSED
+      if (event.data === YT.PlayerState.PLAYING) {
+        const currentTime = ytPlayer.getCurrentTime();
+        socket.emit('activity', {
+          room,
+          data: {
+            type: 'youtube_sync',
+            action: 'play',
+            time: currentTime
+          }
+        });
+      } else if (event.data === YT.PlayerState.PAUSED) {
+        socket.emit('activity', {
+          room,
+          data: {
+            type: 'youtube_sync',
+            action: 'pause'
+          }
+        });
+      }
+    }
+
+    btnYoutube.onclick = () => {
+      if (isStreaming) {
+        stopActivity(); // reusable function to stop current activity
+      }
+
+      const url = prompt("Enter YouTube URL:");
+      if (url) {
+        const videoId = extractVideoID(url);
+        if (videoId) {
+          // Emit start event
+          socket.emit('activity', { room, data: { type: 'youtube_start', videoId: videoId } });
+          startYouTube(videoId, true);
+        } else {
+          alert("Invalid YouTube URL");
+        }
+      }
+    };
+
+    function extractVideoID(url) {
+      var regExp = /^.*((youtu.be\/)|(v\/)|(\/u\/\w\/)|(embed\/)|(watch\?))\??v?=?([^#&?]*).*/;
+      var match = url.match(regExp);
+      return (match && match[7].length == 11) ? match[7] : false;
+    }
+
+    function startYouTube(videoId, isHost) {
+      ytVideoId = videoId;
+
+      // Hide local video/others, show youtube
+      activityVideo.style.display = 'none';
+
+      // Use existing Movie Mode logic for layout
+      toggleMovieMode(true, isHost);
+      document.body.classList.add('youtube-mode');
+
+      const playerDiv = document.getElementById('youtube-player');
+      playerDiv.style.display = 'block';
+
+      // Ensure custom controls are hidden
+      document.getElementById('custom-controls').style.display = 'none';
+
+      createPlayer(videoId, isHost);
+
+      isStreaming = true; // Mark as active so we can stop it
+      btnYoutube.textContent = "⏹";
+      btnYoutube.classList.add('off');
+    }
+
+    // Update stopActivity to handle YouTube
+    const originalStopActivity = stopActivity;
+    stopActivity = async function () {
+      // Check if it's YouTube mode
+      if (ytVideoId) {
+        socket.emit('activity', { room, data: { type: 'youtube_stop' } });
+        stopYouTubeLocal();
+      } else {
+        // Fallback to original for file sharing
+        await originalStopActivity();
+      }
+    };
+
+    function stopYouTubeLocal() {
+      ytVideoId = '';
+      if (ytPlayer && ytPlayer.stopVideo) {
+        ytPlayer.stopVideo();
+      }
+      document.getElementById('youtube-player').style.display = 'none';
+      toggleMovieMode(false);
+      isStreaming = false;
+
+      btnYoutube.textContent = "📺";
+      btnYoutube.classList.remove('off');
+    }
+
+    // Hook into socket activity handler
+    const originalSocketActivity = socket._callbacks['$activity'] ? socket._callbacks['$activity'][0] : null;
+
+    // We need to intercept or extend the existing handler. 
+    // Since we can't easily "extend" the existing anonymous function effectively without rewriting it, 
+    // it's safer/cleaner to modify the existing socket.on('activity') block in the main code. 
+    // However, since I am using append here, I should probably rewrite the existing socket.on('activity') 
+    // OR add a new listener. Socket.io supports multiple listeners. 
+    // Adding a second listener is safe.
+
+    socket.on('activity', (data) => {
+      if (data.type === 'youtube_start') {
+        console.log('Received YouTube Start:', data.videoId);
+        startYouTube(data.videoId, false);
+      } else if (data.type === 'youtube_stop') {
+        stopYouTubeLocal();
+      } else if (data.type === 'youtube_sync') {
+        if (ytPlayer && ytPlayer.seekTo) {
+          if (data.action === 'play') {
+            // Sync time if difference is large > 2s
+            const diff = Math.abs(ytPlayer.getCurrentTime() - data.time);
+            if (diff > 2) {
+              ytPlayer.seekTo(data.time, true);
+            }
+            ytPlayer.playVideo();
+          } else if (data.action === 'pause') {
+            ytPlayer.pauseVideo();
+          }
+        }
+      }
+    });
+
   </script>
 </body>
 
